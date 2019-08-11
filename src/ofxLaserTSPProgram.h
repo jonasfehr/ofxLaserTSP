@@ -7,7 +7,7 @@
 
 //#include <vector>
 
-namespace bryce_tsp
+namespace ofxLaserTSP
 {
 
     // Laser Commands tell the robot to turn on the laser, turn off the laser,

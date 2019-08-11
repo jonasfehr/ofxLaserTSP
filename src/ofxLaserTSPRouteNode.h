@@ -1,7 +1,7 @@
 #pragma once
 #include <cstddef>
 #include <memory>
-namespace bryce_tsp
+namespace ofxLaserTSP
 {
 	class RouteNode: public std::enable_shared_from_this<RouteNode>
     {

@@ -15,9 +15,9 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::optimize(){
 	cout << "---------------" << endl;
-	bryce_tsp::RouteOptimizer::useSquareDistance() = false;
+	ofxLaserTSP::RouteOptimizer::useSquareDistance() = false;
 	optimizeDrawing();
-	bryce_tsp::RouteOptimizer::useSquareDistance() = true;
+	ofxLaserTSP::RouteOptimizer::useSquareDistance() = true;
 	optimizeDrawing();
 	
 }
@@ -25,7 +25,7 @@ void ofApp::optimize(){
 void ofApp::optimizeDrawing(int passes) {
 	auto t = ofGetElapsedTimeMicros();
 	
-	bryce_tsp::LaserProgram program(theRawDrawing, this -> closed);
+	ofxLaserTSP::LaserProgram program(theRawDrawing, this -> closed);
 	
 	theOptimizedDrawings.clear();
 	drawingLengths.clear();
@@ -42,8 +42,6 @@ void ofApp::optimizeDrawing(int passes) {
 		drawingLengths.push_back(computeLengthOfDrawing(theOptimizedDrawings[i]));
 		cout << "Length after " << i << " passes = " << drawingLengths.back() << endl;
 	}
-	
-	
 }
 
 //--------------------------------------------------------------

@@ -1,6 +1,6 @@
 #include "ofxLaserTSPRouteNode.h"
 #include "ofxLaserTSPDefs.h"
-namespace bryce_tsp
+namespace ofxLaserTSP
 {
 //----------------------------------------------------------------------------------
     RouteNode::RouteNode(size_t id, size_t pid1, size_t pid2)

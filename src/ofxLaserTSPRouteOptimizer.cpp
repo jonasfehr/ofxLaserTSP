@@ -1,7 +1,7 @@
 #include "ofxLaserTSPRouteOptimizer.h"
 #include <stdexcept>
 
-namespace bryce_tsp
+namespace ofxLaserTSP
 {
 //----------------------------------------------------------------------------------
     RouteOptimizer::RouteOptimizer(const std::vector<ofPolyline> &  route, bool closed)

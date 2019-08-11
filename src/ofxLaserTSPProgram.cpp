@@ -1,6 +1,6 @@
 #include "ofxLaserTSPProgram.h"
 
-namespace bryce_tsp
+namespace ofxLaserTSP
 {
 	//----------------------------------------------------------------------------------
 	LaserProgram::LaserProgram(const std::vector<ofPolyline>& route, bool closed)

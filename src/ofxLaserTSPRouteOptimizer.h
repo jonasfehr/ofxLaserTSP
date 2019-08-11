@@ -10,7 +10,7 @@
  * Written by Bryce Summers on 11/18/2016.
  */
 
-namespace bryce_tsp
+namespace ofxLaserTSP
 {
 
     class RouteOptimizer

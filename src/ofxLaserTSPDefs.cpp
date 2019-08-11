@@ -1,6 +1,6 @@
 #include "ofxLaserTSPDefs.h"
 
-namespace bryce_tsp
+namespace ofxLaserTSP
 {
 //    Route * copy(Route * route)
 //    {

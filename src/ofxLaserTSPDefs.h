@@ -8,7 +8,7 @@
 * This also imports all of the Laser .h files.
 * Written by Bryce Summers on 11/28/2016.
 */
-namespace bryce_tsp
+namespace ofxLaserTSP
 {
 	template<typename T>
 	std::shared_ptr<T> getFromWeak(std::weak_ptr<T> weak){

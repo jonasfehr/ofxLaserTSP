@@ -2,8 +2,8 @@
 
 #include <vector>
 #include "ofMain.h"
-#include "LaserDefs.h"
-#include "RouteNode.h"
+#include "ofxLaserTSPDefs.h"
+#include "ofxLaserTSPRouteNode.h"
 
 /*
  * Polyline Route Optimizer.
@@ -28,7 +28,6 @@ namespace bryce_tsp
 
     public:
         RouteOptimizer(const std::vector<ofPolyline> & route, bool closed = true);
-//        ~RouteOptimizer();
 
         // Returns a heuristically optimized route.
         // This is guranteed to be a new route in memory.

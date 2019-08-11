@@ -1,5 +1,5 @@
-#include "RouteNode.h"
-#include "LaserDefs.h"
+#include "ofxLaserTSPRouteNode.h"
+#include "ofxLaserTSPDefs.h"
 namespace bryce_tsp
 {
 //----------------------------------------------------------------------------------

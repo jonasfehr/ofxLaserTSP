@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "../src/LaserMain.h"
+#include "ofxLaserTSP.h"
 
 //struct PolylinePlus {
 //    ofPolyline polyline; // assume there will always be a field called 'polyline'

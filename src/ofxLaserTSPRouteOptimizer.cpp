@@ -1,4 +1,4 @@
-#include "RouteOptimizer.h"
+#include "ofxLaserTSPRouteOptimizer.h"
 #include <stdexcept>
 
 namespace bryce_tsp

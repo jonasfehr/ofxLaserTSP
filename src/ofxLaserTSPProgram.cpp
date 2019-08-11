@@ -1,4 +1,4 @@
-#include "LaserProgram.h"
+#include "ofxLaserTSPProgram.h"
 
 namespace bryce_tsp
 {

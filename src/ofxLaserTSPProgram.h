@@ -1,9 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
-#include "LaserDefs.h"
-#include "RouteOptimizer.h"
-#include "RouteNode.h"
+#include "ofxLaserTSPDefs.h"
+#include "ofxLaserTSPRouteOptimizer.h"
+#include "ofxLaserTSPRouteNode.h"
 
 //#include <vector>
 

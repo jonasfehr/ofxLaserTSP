@@ -17,16 +17,11 @@ namespace bryce_tsp
         size_t pid = 0; // next Point ID.
 
         // Allocate all of the Route Nodes and Points.
-//        for (auto iter = route -> cbegin(); iter != route -> cend(); ++iter)
-		for(auto& r: route)
-        {
-//            RouteNode node = RouteNode(id, pid, pid + 1);
+		for(auto& r: route){
 			auto node = std::make_shared<RouteNode>(id, pid, pid + 1);
             id  += 1;
             pid += 2;
             nodes.push_back(node);
-
-//            Polyline * polyline = *iter;
 
             points.push_back(r.getVertices().front());
             points.push_back(r.getVertices().back());
@@ -37,29 +32,21 @@ namespace bryce_tsp
         size_t len = nodes.size();
         for (int i = 0; i < len; i++)
         {
-//            RouteNode & node = ;
             nodes[i]->setPrev(nodes[(i + len - 1) % len]);
             nodes[i]->setNext(nodes[(i + len + 1) % len]);
         }
     }
 
-
-
-//    RouteOptimizer::~RouteOptimizer()
-//    {
-//    }
 //----------------------------------------------------------------------------------
-    const std::vector<ofPolyline>& RouteOptimizer::optimize(int passes)
-    {
-
-        //cout << "Metric Before Optimization = " << metric(nodes) << endl;
-        aplyOptimizationPasses(passes);
-        //cout << "Metric After Optimization = " << metric(nodes) << endl;
-		toRoute();
+    const std::vector<ofPolyline>& RouteOptimizer::optimize(int passes){
+		outputRoute.clear();
+		if(aplyOptimizationPasses(passes)){
+			toRoute();
+		}
 		return outputRoute;
     }
 //----------------------------------------------------------------------------------
-    void RouteOptimizer::aplyOptimizationPasses(int passes)
+    bool RouteOptimizer::aplyOptimizationPasses(int passes)
     {
         // Do some optimization here...
         int len = nodes.size();
@@ -76,44 +63,37 @@ namespace bryce_tsp
             float new_score = metric(nodes);
             if (new_score > score + 2)
             {
-                throw new std::runtime_error("A Deoptimization has Occured!");
+				ofLogError("ofxLaserTSP::RouteOptimizer::aplyOptimizationPasses") << "A Deoptimization has Occured while attempting flip!";
+				return false;
             }
             score = new_score;
-
         }
 
         // Try swapping route pointers...
         // O(n^3)
-        //for(int pass = 0; pass < 2; pass++)
         for (int pass = 0; pass < passes; pass++)
         {
-            for (int i1 = 0; i1 < len; i1++)
-            for (int i2 = i1 + 1; i2 < len; i2++)
-            {
-                attemptSwap(i1, i2);
-
-                float new_score = metric(nodes);
-                if (new_score > score + 2)
-                {
-                    throw new std::runtime_error("A Deoptimization has Occured!");
-                }
-                new_score = score;
-
-            }
-
-            //cout << "Metric After Pass " << pass << " = " << metric(nodes) << endl;
-        }
-
-        //cout << "Metric After Pass " << passes << " = " << metric(nodes) << endl;
-
-        return;
+			for (int i1 = 0; i1 < len; i1++){
+				for (int i2 = i1 + 1; i2 < len; i2++)
+				{
+					attemptSwap(i1, i2);
+					
+					float new_score = metric(nodes);
+					if (new_score > score + 2)
+					{
+						ofLogError("ofxLaserTSP::RouteOptimizer::aplyOptimizationPasses") << "A Deoptimization has Occured while attempting swap!";
+						return false;
+					}
+					new_score = score;
+					
+				}
+			}
+		}
+        return true;
     }
 //----------------------------------------------------------------------------------
    void RouteOptimizer::toRoute()
     {
-//        Route * output = new Route();
-//		std::vector<ofPolyline> output;
-		
 		outputRoute.clear();
         // Convert RouteOptimizer Structures back to a route representation.
 
@@ -125,8 +105,7 @@ namespace bryce_tsp
         do
         {
             size_t& ID = current -> id;
-//            auto& polyline = this -> route[ID];
-			
+	
             // NOTE: We could easily make an output format that gives the users the flipped bools, instead of flipped lists.
             // I like the lists, because we could potentially chop up paths in the future for other applications.
 			outputRoute.push_back(this -> route[ID]);
@@ -134,20 +113,10 @@ namespace bryce_tsp
 			if (current -> flipped)
             {
 				reverse_polyline(outputRoute.back());
-//                polyline = reverse_polyline(polyline);
             }
-//            else
-//            {
-               // polyline = copy_polyline(polyline);
-//            }
-
-//            outputRoute.push_back(polyline);
-
             // Iterate.
             current = current -> getNext();
         }while(current != first);
-
-//        return output;
     }
 //----------------------------------------------------------------------------------
     // -- Optimization Helper Functions.
@@ -164,16 +133,11 @@ namespace bryce_tsp
         const size_t & ip2 = node->index_end;
         const size_t & ip3 = node->getNext()-> index_start;
 
-//        float metric_0 = metric(ip0, ip1) + metric(ip2, ip3);
-//        float metric_1 = metric(ip0, ip2) + metric(ip1, ip3);
 
-		if((metric(ip0, ip2) + metric(ip1, ip3)) < (metric(ip0, ip1) + metric(ip2, ip3)))
-//        if(metric_1 < metric_0)
-        {
+		if((metric(ip0, ip2) + metric(ip1, ip3)) < (metric(ip0, ip1) + metric(ip2, ip3))){
             node->flip();
             return true;
         }
-
         return false;
     }
 //----------------------------------------------------------------------------------
@@ -212,7 +176,6 @@ namespace bryce_tsp
 
         // Reverse next1 through node2.
 
-        //next1 -> node2 + .
         auto current = next1;
         auto end = node2;
         do
@@ -244,15 +207,7 @@ namespace bryce_tsp
         // Warning, this is going in arbitrary original order, because the order that we add the segments up doesn't matter.
         // If you change this to rely on the permuted ordering of nodes, transverse this using next pointers.
 		for(auto& node: nodes){
-//        for (auto iter = nodes.begin(); iter != nodes.end(); ++iter)
-//        {
-//            RouteNode * node = &(*iter);
-
-            // Point Indices.
-//            int p0 = node -> index_end;
-//            int p1 = node -> next -> index_start;
 			accum += metric(node->index_end, node->getNext()-> index_start);
-//            accum += metric(p0, p1);
         }
 
         return accum;
@@ -262,22 +217,12 @@ namespace bryce_tsp
     {
 		size_t index = 0;
 		bool bFound = false;
-		float max = 0;//std::numeric_limits<float>::min();
-//        auto len = nodes.size();
-		for(auto& node: nodes)
-//        for (int i = 0; i < len; i++)
-		{
-//            RouteNode * node = &nodes[i];
-//            RouteNode * next = node -> next;
+		float max = 0;
 
-			
-			
-            // Point Indices.
-//            int p0 = node -> index_end;
-//            int p1 = next -> index_start;
+		for(auto& node: nodes)
+		{
 			auto next = node->getNext();
-			float dist = metric(node->index_end,  next-> index_start);
-//            float dist = metric(p0, p1);
+			float dist = metric(node->index_end,  next->index_start);
 
             if (dist > max){
 				bFound = true;
@@ -285,25 +230,20 @@ namespace bryce_tsp
                 max = dist;
             }
         }
-
-//        if (index < 0)
-		if(!bFound)
-        {
-            throw new std::runtime_error("No maximum edge distance was found.");
+		if(!bFound){
+            ofLogError("ofxLaserTSP::RouteOptimizer::getLongestEdgeIndex") << "No maximum edge distance was found.";
         }
-
         return index;
     }
 //----------------------------------------------------------------------------------
     // Returns a consistent heuristic for the length of a path from id1 to id2.
     float RouteOptimizer::metric(const size_t& id1, const size_t& id2)
     {
-//        ofPoint p1 = points[id1];
-//        ofPoint p2 = points[id2];
-		
         // FIXME: Square distance would be faster.
+		if (useSquareDistance()){
+			return glm::distance2(points[id1], points[id2]);
+		}
 		return glm::distance(points[id1], points[id2]);
-//        return ofDist(p1.x, p1.y, p2.x, p2.y);
     }
 //----------------------------------------------------------------------------------
     void RouteOptimizer::permute(std::vector<size_t> & permutation_in_out)
@@ -333,12 +273,13 @@ namespace bryce_tsp
         }
 
         // Finnally copy the resultant global permutation onto the input_output buffer.
-        for (int i = 0; i < len; i++)
-        {
+        for (int i = 0; i < len; i++){
             permutation_in_out[i] = permutation_out[i];
         }
-
-        return;
     }
-
+	//----------------------------------------------------------------------------------
+	bool& RouteOptimizer::useSquareDistance(){
+		static std::unique_ptr<bool> i =  make_unique<bool>(false);
+		return *i;
+	}
 }

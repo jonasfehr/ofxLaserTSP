@@ -36,6 +36,8 @@ namespace bryce_tsp
         // Permutes the given permutation by the permutation constructed by this RouteOptimizer.
         void permute(std::vector<size_t> &permutation);
 
+		static bool & useSquareDistance();
+		
     private:
         // A local allocation of memory for all of the route nodes,
         // which constitute a modifiable linked list.
@@ -54,7 +56,7 @@ namespace bryce_tsp
         float metric(const std::vector<std::shared_ptr<RouteNode>> & nodes);
 
         // This is where I design the macro optimization passes.
-        void aplyOptimizationPasses(int passes);
+        bool aplyOptimizationPasses(int passes);
 
         // Returns a consistent heuristic for the length of a path from points[id1] to points[id2].
         float metric(const size_t& id1, const size_t& id2);
@@ -67,8 +69,6 @@ namespace bryce_tsp
         // float metric(int id1_p, int id1, int id2, int id2_p);
 
         // Converts from this RouteOptimizer's internal structures back to a route representation.
-        // User is responsible for managing the returned memory.
-//        std::vector<ofPolyline> toRoute();
 		void toRoute();
 
     };

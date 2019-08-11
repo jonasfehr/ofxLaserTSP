@@ -33,8 +33,6 @@ namespace bryce_tsp
         int ID;
     };
 
-//    typedef std::vector<LaserCommand> Program;
-
     class LaserProgram
     {
 
@@ -52,7 +50,6 @@ namespace bryce_tsp
         // ASSUMES: route allocated via new. The Laser Program now owns the input route and will deal with deallocation.
         // ASSUMES: every route contains at least 2 points.
         LaserProgram(const std::vector<ofPolyline>& route, bool closed = true);
-//        ~LaserProgram();
 
         // -- Instructs the LaserProgram to Optimize its route.
         // Updates the internal route pointer to a new route.
@@ -66,7 +63,7 @@ namespace bryce_tsp
         const std::vector<ofPolyline>& getRoute() const;
 			  std::vector<ofPolyline>& getRoute();
         // Converts the current route into a command list form.
-//        const std::vector<LaserCommand>&  getCommandList() const;
+
 			  std::vector<LaserCommand>&  getCommandList() ;
         // Determines the index of the given index in the original data after the optimization permutation has been applied.
         const size_t& lookup_original_index(const size_t & current_index);

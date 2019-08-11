@@ -7,7 +7,6 @@ namespace bryce_tsp
     {
     public:
         RouteNode(size_t id, size_t pid1, size_t pid2);
-//        ~RouteNode();
 
         bool marked = false;
 

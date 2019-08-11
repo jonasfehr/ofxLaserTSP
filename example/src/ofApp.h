@@ -36,8 +36,11 @@ public:
     void optimizeDrawing(int passes = 4);
     float computeLengthOfDrawing(const vector<ofPolyline>& aDrawing);
 
+	void optimize();
+	
+	
     vector<ofPolyline>	theRawDrawing;
-//    vector<ofPolyline>	tempDrawing;
+
     vector<vector<ofPolyline>>	theOptimizedDrawings;
 
 	void drawPolys(vector<ofPolyline>& polys);
@@ -50,7 +53,7 @@ public:
 	
 //    bool bDoit;
     bool closed = false;
-    int passes = 4;
+//    int passes = 4;
 
 //    // Conversion functions between Polyline Plus vectors and the Routes used in bryce_tsp.
 //    void convert_polyline_plus_to_route(vector<PolylinePlus> * path_list, bryce_tsp::Route * route);

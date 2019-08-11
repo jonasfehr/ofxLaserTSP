@@ -10,29 +10,16 @@ namespace bryce_tsp
         this -> index_end   = pid2;
     }
 //----------------------------------------------------------------------------------
-//    RouteNode::~RouteNode()
-//    {
-//    }
-//----------------------------------------------------------------------------------
     void RouteNode::flip()
     {
         // This is used to signal the output to invert the input polyline.
         flipped = !flipped;
 
-        // swap.
 		std::swap(index_start, index_end);
-//        int temp = index_start;
-//        index_start = index_end;
-//        index_end = temp;
     }
 //----------------------------------------------------------------------------------
-    void RouteNode::reverse()
-    {
+    void RouteNode::reverse(){
 		std::swap(prev, next);
-//        RouteNode * temp = prev;
-//        prev = next;
-//        next = temp;
-
         flip();
     }
 //----------------------------------------------------------------------------------

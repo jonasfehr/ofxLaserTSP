@@ -19,7 +19,9 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::optimizeDrawing(int passes) {
-
+	auto t = ofGetElapsedTimeMicros();
+	
+	
     bryce_tsp::Route * route_in = new bryce_tsp::Route();
 
     convert_polyline_plus_to_route(&theRawDrawing, route_in);
@@ -43,7 +45,7 @@ void ofApp::optimizeDrawing(int passes) {
         cout << "Length after " << i << "passes = " << drawingLength << endl;
     }
 
-
+	cout << "optimizeDrawing: time taken: " << ofGetElapsedTimeMicros() - t <<endl;
 }
 
 void ofApp::convert_polyline_plus_to_route(vector<PolylinePlus> * path_list, bryce_tsp::Route * route)

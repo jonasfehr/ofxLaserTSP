@@ -3,8 +3,8 @@
 
 namespace bryce_tsp
 {
-
-    RouteOptimizer::RouteOptimizer(Route * route, bool closed)
+//----------------------------------------------------------------------------------
+    RouteOptimizer::RouteOptimizer(const std::vector<ofPolyline> &  route, bool closed)
     {
         this -> route = route;
         this -> closed = closed;
@@ -13,50 +13,52 @@ namespace bryce_tsp
         nodes.clear();
         points.clear();
 
-        int id  = 0; // next Route ID.
-        int pid = 0; // next Point ID.
+        size_t id  = 0; // next Route ID.
+        size_t pid = 0; // next Point ID.
 
         // Allocate all of the Route Nodes and Points.
-        for (auto iter = route -> cbegin(); iter != route -> cend(); ++iter)
+//        for (auto iter = route -> cbegin(); iter != route -> cend(); ++iter)
+		for(auto& r: route)
         {
-            RouteNode node = RouteNode(id, pid, pid + 1);
+//            RouteNode node = RouteNode(id, pid, pid + 1);
+			auto node = std::make_shared<RouteNode>(id, pid, pid + 1);
             id  += 1;
             pid += 2;
             nodes.push_back(node);
 
-            Polyline * polyline = *iter;
+//            Polyline * polyline = *iter;
 
-            points.push_back(polyline -> front());
-            points.push_back(polyline -> back());
+            points.push_back(r.getVertices().front());
+            points.push_back(r.getVertices().back());
 
         }
 
         // Link up the entire list of nodes.
-        int len = nodes.size();
+        size_t len = nodes.size();
         for (int i = 0; i < len; i++)
         {
-            RouteNode & node = nodes[i];
-            node.prev = &nodes[(i + len - 1) % len];
-            node.next = &nodes[(i + len + 1) % len];
+//            RouteNode & node = ;
+            nodes[i]->setPrev(nodes[(i + len - 1) % len]);
+            nodes[i]->setNext(nodes[(i + len + 1) % len]);
         }
     }
 
 
 
-    RouteOptimizer::~RouteOptimizer()
-    {
-    }
-
-    Route * RouteOptimizer::optimize(int passes)
+//    RouteOptimizer::~RouteOptimizer()
+//    {
+//    }
+//----------------------------------------------------------------------------------
+    const std::vector<ofPolyline>& RouteOptimizer::optimize(int passes)
     {
 
         //cout << "Metric Before Optimization = " << metric(nodes) << endl;
         aplyOptimizationPasses(passes);
         //cout << "Metric After Optimization = " << metric(nodes) << endl;
-
-        return toRoute();
+		toRoute();
+		return outputRoute;
     }
-
+//----------------------------------------------------------------------------------
     void RouteOptimizer::aplyOptimizationPasses(int passes)
     {
         // Do some optimization here...
@@ -106,86 +108,92 @@ namespace bryce_tsp
 
         return;
     }
-
-    Route * RouteOptimizer::toRoute()
+//----------------------------------------------------------------------------------
+   void RouteOptimizer::toRoute()
     {
-        Route * output = new Route();
-
+//        Route * output = new Route();
+//		std::vector<ofPolyline> output;
+		
+		outputRoute.clear();
         // Convert RouteOptimizer Structures back to a route representation.
 
         // retrive the start index, such that we start after the most distant edge.
         this -> start_index = getLongestEdgeIndex(nodes);
 
-        RouteNode * first   = &nodes[this -> start_index];
-        RouteNode * current = first;
+        auto first   = nodes[this -> start_index];
+        auto current = first;
         do
         {
-            int ID = current -> id;
-            Polyline * polyline = this -> route -> at(ID);
-            
+            size_t& ID = current -> id;
+//            auto& polyline = this -> route[ID];
+			
             // NOTE: We could easily make an output format that gives the users the flipped bools, instead of flipped lists.
             // I like the lists, because we could potentially chop up paths in the future for other applications.
-            if (current -> flipped) 
-            { 
-                polyline = reverse_polyline(polyline);
-            }
-            else
+			outputRoute.push_back(this -> route[ID]);
+			
+			if (current -> flipped)
             {
-                polyline = copy_polyline(polyline);
+				reverse_polyline(outputRoute.back());
+//                polyline = reverse_polyline(polyline);
             }
+//            else
+//            {
+               // polyline = copy_polyline(polyline);
+//            }
 
-            output -> push_back(polyline);
+//            outputRoute.push_back(polyline);
 
             // Iterate.
-            current = current -> next;
+            current = current -> getNext();
         }while(current != first);
 
-        return output;
+//        return output;
     }
-
+//----------------------------------------------------------------------------------
     // -- Optimization Helper Functions.
 
     bool RouteOptimizer::attemptFlip(int i)
     {
-        RouteNode & node = nodes[i];
+        auto & node = nodes[i];
         
         // The back connection.
-        int ip0 = node.prev -> index_end;
-        int ip1 = node.index_start;
+        const size_t & ip0 = node->getPrev()->index_end;
+        const size_t & ip1 = node->index_start;
 
         // The forward connection.
-        int ip2 = node.index_end;
-        int ip3 = node.next -> index_start;
+        const size_t & ip2 = node->index_end;
+        const size_t & ip3 = node->getNext()-> index_start;
 
-        float metric_0 = metric(ip0, ip1) + metric(ip2, ip3);
-        float metric_1 = metric(ip0, ip2) + metric(ip1, ip3);
+//        float metric_0 = metric(ip0, ip1) + metric(ip2, ip3);
+//        float metric_1 = metric(ip0, ip2) + metric(ip1, ip3);
 
-        if(metric_1 < metric_0)
+		if((metric(ip0, ip2) + metric(ip1, ip3)) < (metric(ip0, ip1) + metric(ip2, ip3)))
+//        if(metric_1 < metric_0)
         {
-            node.flip();
+            node->flip();
             return true;
         }
 
         return false;
     }
-
+//----------------------------------------------------------------------------------
     // Attempts to point i1 to i2 and 
     bool RouteOptimizer::attemptSwap(int i1, int i2)
     {
-        RouteNode * node1 = &nodes[i1];
-        RouteNode * node2 = &nodes[i2];
+		auto& node1 = nodes[i1];
+		auto& node2 = nodes[i2];
 
-        RouteNode * next1 = node1 -> next;
-        RouteNode * next2 = node2 -> next;
+        auto next1 = node1 -> getNext();
+        auto next2 = node2 -> getNext();
 
         // Swaps are impossible for successive nodes.
-        if(next1 == node2)
+        if(next1.get() == node2.get())
         {
             return false;
         }
 
-        RouteNode * prev1 = node1 -> prev;
-        RouteNode * prev2 = node2 -> prev;
+        auto prev1 = node1 -> getPrev();
+        auto prev2 = node2 -> getPrev();
 
         float metric_0 = metric(node1 -> index_end, next1 -> index_start) + 
                          metric(node2 -> index_end, next2 -> index_start);
@@ -197,22 +205,23 @@ namespace bryce_tsp
             return false;
         }
 
-        node1 -> next = node2;
-        next1 -> prev = next2;// reversed later.
-        next2 -> prev = next1;// Link the latter part back. This won't need to be reversed.
-        node2 -> next = node1;// reversed later.
+        node1 -> setNext(node2);
+        next1 -> setPrev(next2);// reversed later.
+        next2 -> setPrev(next1);// Link the latter part back. This won't need to be reversed.
+        node2 -> setNext(node1);// reversed later.
 
         // Reverse next1 through node2.
 
         //next1 -> node2 + .
-        RouteNode * current = next1;
-        RouteNode * end = node2;
+        auto current = next1;
+        auto end = node2;
         do
         {
-            RouteNode * next = current -> next;
+            auto next = current -> getNext();
             current -> reverse();
             current = next;
         }while(current != end);
+		
         current -> reverse();// Reverse the end.
 
         // Perform some opportunistic flips.
@@ -223,95 +232,103 @@ namespace bryce_tsp
         
         return true;
     }
-
+//----------------------------------------------------------------------------------
     // global metric.
     // Returns a consistent for how long the path is.
     // We wish to minimize this value.
     // We use this metric for open and closed problems, then simply remove the longest edge afterwards.
-    float RouteOptimizer::metric(std::vector<RouteNode> nodes)
+    float RouteOptimizer::metric(const std::vector<std::shared_ptr<RouteNode>>& nodes)
     {
         // Accumulator.
         float accum = 0.0f;
         // Warning, this is going in arbitrary original order, because the order that we add the segments up doesn't matter.
         // If you change this to rely on the permuted ordering of nodes, transverse this using next pointers.
-        for (auto iter = nodes.begin(); iter != nodes.end(); ++iter)
-        {
-            RouteNode * node = &(*iter);
+		for(auto& node: nodes){
+//        for (auto iter = nodes.begin(); iter != nodes.end(); ++iter)
+//        {
+//            RouteNode * node = &(*iter);
 
             // Point Indices.
-            int p0 = node -> index_end;
-            int p1 = node -> next -> index_start;
-
-            accum += metric(p0, p1);
+//            int p0 = node -> index_end;
+//            int p1 = node -> next -> index_start;
+			accum += metric(node->index_end, node->getNext()-> index_start);
+//            accum += metric(p0, p1);
         }
 
         return accum;
     }
-
-    int RouteOptimizer::getLongestEdgeIndex(std::vector<RouteNode> nodes)
+//----------------------------------------------------------------------------------
+    size_t RouteOptimizer::getLongestEdgeIndex(const std::vector<std::shared_ptr<RouteNode>>& nodes)
     {
-        int index = -1;
-        float max = std::numeric_limits<float>::min();
-        int len = nodes.size();
-        for (int i = 0; i < len; i++)
-        {
-            RouteNode * node = &nodes[i];
-            RouteNode * next = node -> next;
+		size_t index = 0;
+		bool bFound = false;
+		float max = 0;//std::numeric_limits<float>::min();
+//        auto len = nodes.size();
+		for(auto& node: nodes)
+//        for (int i = 0; i < len; i++)
+		{
+//            RouteNode * node = &nodes[i];
+//            RouteNode * next = node -> next;
 
+			
+			
             // Point Indices.
-            int p0 = node -> index_end;
-            int p1 = next -> index_start;
+//            int p0 = node -> index_end;
+//            int p1 = next -> index_start;
+			auto next = node->getNext();
+			float dist = metric(node->index_end,  next-> index_start);
+//            float dist = metric(p0, p1);
 
-            float dist = metric(p0, p1);
-
-            if (dist > max)
-            {
+            if (dist > max){
+				bFound = true;
                 index = next -> id;
                 max = dist;
             }
         }
 
-        if (index < 0)
+//        if (index < 0)
+		if(!bFound)
         {
             throw new std::runtime_error("No maximum edge distance was found.");
         }
 
         return index;
     }
-
+//----------------------------------------------------------------------------------
     // Returns a consistent heuristic for the length of a path from id1 to id2.
-    float RouteOptimizer::metric(int id1, int id2)
+    float RouteOptimizer::metric(const size_t& id1, const size_t& id2)
     {
-        ofPoint p1 = points[id1];
-        ofPoint p2 = points[id2];
-        
+//        ofPoint p1 = points[id1];
+//        ofPoint p2 = points[id2];
+		
         // FIXME: Square distance would be faster.
-        return ofDist(p1.x, p1.y, p2.x, p2.y);
+		return glm::distance(points[id1], points[id2]);
+//        return ofDist(p1.x, p1.y, p2.x, p2.y);
     }
-
-    void RouteOptimizer::permute(std::vector<int> & permutation_in_out)
+//----------------------------------------------------------------------------------
+    void RouteOptimizer::permute(std::vector<size_t> & permutation_in_out)
     {
         
-        std::vector<int> permutation;
-        std::vector<int> permutation_out;
+        std::vector<size_t> permutation;
+        std::vector<size_t> permutation_out;
 
         // First compute the relative permutation from the input route to this optimizer to the present route.
         // ASSERTION( This loop goes n times, where n = nodes.length;
-        RouteNode * start = &nodes[this -> start_index];
-        RouteNode * current = start;
+        auto start = nodes[this -> start_index];
+        auto current = start;
         do
         {
             permutation.push_back(current -> id);
-            current = current -> next;
+            current = current -> getNext();
         } while (current != start);
 
         // Next permute the input permutation by the relative permutation.
         // i is the local index -> relative index -> global index.
-        int len = permutation_in_out.size();
-        for (int i = 0; i < len; i++)
+        size_t len = permutation_in_out.size();
+        for (size_t i = 0; i < len; i++)
         {
-            int relative_index = permutation[i];
-            int global_index   = permutation_in_out[relative_index];
+            size_t& relative_index = permutation[i];
+            size_t& global_index   = permutation_in_out[relative_index];
             permutation_out.push_back(global_index);
         }
 

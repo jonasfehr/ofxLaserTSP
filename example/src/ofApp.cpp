@@ -2,137 +2,174 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-
-    populateExampleVectorOfPolylines();
-    bDoit = true;
+	populateExampleVectorOfPolylines();
+	
+//    bDoit = true;
+	optimizeDrawing(this -> passes);
+	
 
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-    if (bDoit) {
-        optimizeDrawing(this -> passes);
-        bDoit = false;
-    }
+//    if (bDoit) {
+//        optimizeDrawing(this -> passes);
+//        bDoit = false;
+//    }
 }
 
 
 //--------------------------------------------------------------
 void ofApp::optimizeDrawing(int passes) {
-	auto t = ofGetElapsedTimeMicros();
+auto t = ofGetElapsedTimeMicros();
+//    bryce_tsp::Route * route_in = new bryce_tsp::Route();
 	
-	
-    bryce_tsp::Route * route_in = new bryce_tsp::Route();
 
-    convert_polyline_plus_to_route(&theRawDrawing, route_in);
+//    convert_polyline_plus_to_route(&theRawDrawing, route_in);
 
-    bryce_tsp::LaserProgram program(route_in, this -> closed);
-    bryce_tsp::free_route(route_in);
-
-    for (int i = 0; i <= passes; i++)
-    {
+    bryce_tsp::LaserProgram program(theRawDrawing, this -> closed);
+//    bryce_tsp::free_route(route_in);
+	theOptimizedDrawings.clear();
+	drawingLengths.clear();
+    for (int i = 0; i <= passes; i++){
+		
         program.optimize(i);
 
-        bryce_tsp::Route * route_out = program.getRoute();
+//        bryce_tsp::Route * route_out = program.getRoute();
+//		auto & route_out = program.getRoute();
+//		theOptimizedDrawing =
+		theOptimizedDrawings.push_back(program.getRoute());
+//        theOptimizedDrawing.clear();
+//        convert_route_to_polyline_plus(&theRawDrawing, route_out, &program, &theOptimizedDrawing);
 
-        theOptimizedDrawing.clear();
-        convert_route_to_polyline_plus(&theRawDrawing, route_out, &program, &theOptimizedDrawing);
+//        bryce_tsp::free_route(route_out);
 
-        bryce_tsp::free_route(route_out);
+        drawingLengths.push_back(computeLengthOfDrawing(theOptimizedDrawings.back()));
 
-        drawingLength = computeLengthOfDrawing(theOptimizedDrawing);
-
-        cout << "Length after " << i << "passes = " << drawingLength << endl;
+        cout << "Length after " << i << "passes = " << drawingLengths.back() << endl;
     }
 
-	cout << "optimizeDrawing: time taken: " << ofGetElapsedTimeMicros() - t <<endl;
+cout << "optimizeDrawing: time taken: " << ofGetElapsedTimeMicros() - t <<endl;
 }
 
-void ofApp::convert_polyline_plus_to_route(vector<PolylinePlus> * path_list, bryce_tsp::Route * route)
-{
-    for (auto iter = path_list -> begin(); iter != path_list -> end(); ++iter)
-    {
-        ofPolyline * polyline_in = &(iter -> polyline);
-        bryce_tsp::Polyline * polyline_out = bryce_tsp::of_polyline_to_polyline(polyline_in);
-        route -> push_back(polyline_out);
-    }
-}
+//void ofApp::convert_polyline_plus_to_route(vector<PolylinePlus> * path_list, bryce_tsp::Route * route)
+//{
+//    for (auto iter = path_list -> begin(); iter != path_list -> end(); ++iter)
+//    {
+//        ofPolyline * polyline_in = &(iter -> polyline);
+//        bryce_tsp::Polyline * polyline_out = bryce_tsp::of_polyline_to_polyline(polyline_in);
+//        route -> push_back(polyline_out);
+//    }
+//}
 
-void ofApp::convert_route_to_polyline_plus(
-        vector<PolylinePlus>    * path_in,
-        bryce_tsp::Route        * route_in,
-        bryce_tsp::LaserProgram * permuter,
-        vector<PolylinePlus>    * path_out)
-{
-    // Transcribe each of the input Polyline Plus paths into output Polyline Plus paths.
-    // using information from the optimizer.
-    int len = route_in -> size();
-    for (int new_index = 0; new_index < len; new_index++)
-    {
-        bryce_tsp::Polyline * polyline = route_in -> at(new_index);
-        path_out -> push_back(PolylinePlus());
-        PolylinePlus & out = path_out -> back();
+//void ofApp::convert_route_to_polyline_plus(
+//        vector<PolylinePlus>    * path_in,
+//        bryce_tsp::Route        * route_in,
+//        bryce_tsp::LaserProgram * permuter,
+//        vector<PolylinePlus>    * path_out)
+//{
+//    // Transcribe each of the input Polyline Plus paths into output Polyline Plus paths.
+//    // using information from the optimizer.
+//    int len = route_in -> size();
+//    for (int new_index = 0; new_index < len; new_index++)
+//    {
+//        bryce_tsp::Polyline * polyline = route_in -> at(new_index);
+//        path_out -> push_back(PolylinePlus());
+//        PolylinePlus & out = path_out -> back();
+//
+//        out.polyline.clear();
+//
+//        // Copy over the polyline.
+//        for (auto pt = polyline -> cbegin(); pt != polyline -> cend(); ++pt)
+//        {
+//            out.polyline.addVertex(*pt);
+//        }
+//
+//        int original_index = permuter -> lookup_original_index(new_index);
+//        PolylinePlus & in  = path_in  -> at(original_index);
+//
+//        copy_extra_polyline_plus_data(in, out);
+//    }
+//}
 
-        out.polyline.clear();
-
-        // Copy over the polyline.
-        for (auto pt = polyline -> cbegin(); pt != polyline -> cend(); ++pt)
-        {
-            out.polyline.addVertex(*pt);
-        }
-
-        int original_index = permuter -> lookup_original_index(new_index);
-        PolylinePlus & in  = path_in  -> at(original_index);
-
-        copy_extra_polyline_plus_data(in, out);
-    }
-}
-
-void ofApp::copy_extra_polyline_plus_data(PolylinePlus & src, PolylinePlus & dest)
-{
-    // Simply copy over the data fields from the source to the destination.
-
-    dest.r = src.r;
-    dest.g = src.g;
-    dest.b = src.b;
-
-    dest.lineThickness = src.lineThickness;
-    dest.someOtherStuff = src.someOtherStuff;
-}
+//void ofApp::copy_extra_polyline_plus_data(PolylinePlus & src, PolylinePlus & dest)
+//{
+//    // Simply copy over the data fields from the source to the destination.
+//
+//    dest.r = src.r;
+//    dest.g = src.g;
+//    dest.b = src.b;
+//
+//    dest.lineThickness = src.lineThickness;
+//    dest.someOtherStuff = src.someOtherStuff;
+//}
 
 
 //--------------------------------------------------------------
+void ofApp::drawPolys(vector<ofPolyline>& polys){
+	for(size_t i = 0; i < polys.size(); i++){
+	ofSetColor(0);
+	polys[i].draw();
+	
+	if (closed || i < polys.size() - 1)
+	{
+		// draw indicator from end of this line, to start of next
+		ofSetColor(255, 0, 0, 160);
+		ofSetLineWidth(1.0);
+		auto& lastPointOfThis = polys[i].getVertices().back();
+		auto& firstPointOfNext = (polys[(i + 1) % polys.size()])[0];
+		ofDrawLine(lastPointOfThis, firstPointOfNext);
+	}
+	}
+}
+
+//--------------------------------------------------------------
 void ofApp::draw() {
-    ofBackground(255);
+    ofBackground(60);
     ofPushMatrix();
     ofScale(3.0, 3.0);
 
-    int nPolylinePlusses = theOptimizedDrawing.size();
-    for (int i = 0; i<nPolylinePlusses; i++) {
+	
+//    size_t optimizedDrawingSize = theOptimizedDrawings.size();
+//    for (int i = 0; i<optimizedDrawingSize; i++) {
 
-        PolylinePlus aPolylinePlus = theOptimizedDrawing[i];
-        ofPolyline aPolyline = aPolylinePlus.polyline;
+//        auto& aPolyline = theOptimizedDrawing[i];
+		
+//        ofPolyline aPolyline = aPolylinePlus.polyline;
 
-        ofSetColor(aPolylinePlus.r, aPolylinePlus.g, aPolylinePlus.b);
-        ofSetLineWidth(aPolylinePlus.lineThickness);
-        aPolyline.draw();
+//        ofSetColor(aPolylinePlus.r, aPolylinePlus.g, aPolylinePlus.b);
+//        ofSetLineWidth(aPolylinePlus.lineThickness);
+//		ofSetColor(0);
+//        aPolyline.draw();
+//
+//        if (closed || i < optimizedDrawingSize - 1)
+//        {
+//            // draw indicator from end of this line, to start of next
+//            ofSetColor(255, 0, 0, 160);
+//            ofSetLineWidth(1.0);
+//            auto& lastPointOfThis = aPolyline[aPolyline.size() - 1];
+//            auto& firstPointOfNext = (theOptimizedDrawing[(i + 1) % optimizedDrawingSize])[0];
+//            ofDrawLine(lastPointOfThis, firstPointOfNext);
+//        }
 
-        if (closed || i < nPolylinePlusses - 1)
-        {
-            // draw indicator from end of this line, to start of next
-            ofSetColor(255, 0, 0, 160);
-            ofSetLineWidth(1.0);
-            ofPoint lastPointOfThis = aPolyline[aPolyline.size() - 1];
-            ofPoint firstPointOfNext = (theOptimizedDrawing[(i + 1) % nPolylinePlusses].polyline)[0];
-            ofDrawLine(lastPointOfThis, firstPointOfNext);
-        }
+//    }
 
-    }
-
+	drawPolys(theOptimizedDrawings[drawIndex]);
+	
+	ofTranslate(ofGetWidth()/6, 0);
+	drawPolys(theRawDrawing);
     ofPopMatrix();
 
     ofSetColor(0, 0, 0);
-    ofDrawBitmapString("Total length = " + ofToString(drawingLength), 50, 50);
+	stringstream ss;
+	ss << "Raw Drawing Length: " << rawDrawingLength << endl;
+	ss << "Index: " <<  drawIndex <<endl;
+	ss << "Optimized drawings lengths:" << endl;
+	for(size_t i = 0; i < drawingLengths.size(); i++){
+		ss << "    " << i << "  -  " << drawingLengths[i] << endl;
+	}
+	ofDrawBitmapString(ss.str(), 50, 50);
+//    ofDrawBitmapString("Total length = " + ofToString(drawingLength), 50, 50);
 }
 
 
@@ -179,42 +216,51 @@ void ofApp::populateExampleVectorOfPolylines() {
             aPolyline.addVertex(px, py);
         }
 
-        PolylinePlus aPolylinePlus;
+//        PolylinePlus aPolylinePlus;
 
-        aPolylinePlus.polyline = aPolyline;
-        aPolylinePlus.r = ((i <= 3) ? 0 : 100);
-        aPolylinePlus.g = ((i <= 3) ? 200 : 0);
-        aPolylinePlus.b = ((i <= 3) ? 0 : 160);
-        aPolylinePlus.lineThickness = ((i <= 3) ? 16 : 3);
+//        aPolylinePlus.polyline = aPolyline;
+//        aPolylinePlus.r = ((i <= 3) ? 0 : 100);
+//        aPolylinePlus.g = ((i <= 3) ? 200 : 0);
+//        aPolylinePlus.b = ((i <= 3) ? 0 : 160);
+//        aPolylinePlus.lineThickness = ((i <= 3) ? 16 : 3);
 
-        theRawDrawing.push_back(aPolylinePlus);
+        theRawDrawing.push_back(aPolyline);
     }
 
-    theOptimizedDrawing.clear();
-    for (int i = 0; i<(theRawDrawing.size()); i++) {
-        theOptimizedDrawing.push_back(theRawDrawing[i]);
-    }
-    drawingLength = computeLengthOfDrawing(theOptimizedDrawing);
+//    theOptimizedDrawing.clear();
+//    for (int i = 0; i<(theRawDrawing.size()); i++) {
+//        theOptimizedDrawing.push_back(theRawDrawing[i]);
+//    }
+//	drawingLengths.clear();
+//	for(auto& od: theOptimizedDrawings){
+//		drawingLengths.push_back(computeLengthOfDrawing(od));
+//	}
+	rawDrawingLength = computeLengthOfDrawing(theRawDrawing);
 }
 
 
 //--------------------------------------------------------------
-float ofApp::computeLengthOfDrawing(vector<PolylinePlus> aDrawing) {
+float ofApp::computeLengthOfDrawing(const vector<ofPolyline>&  aDrawing) {
 
     float len = 0;
-    int nPolylinePlusses = aDrawing.size();
-    for (int i = 0; i < nPolylinePlusses; i++) {
-        PolylinePlus aPolylinePlus = aDrawing[i];
-        ofPolyline aPolyline = aPolylinePlus.polyline;
-        len += aPolyline.getPerimeter();
+//    size_t nPolylinePlusses = aDrawing.size();
+	size_t drawingSize = aDrawing.size();
+    for (size_t i = 0; i < drawingSize; i++) {
+//        PolylinePlus aPolylinePlus = aDrawing[i];
+        const ofPolyline& aPolyline = aDrawing[i];
+		
+		len += aPolyline.getPerimeter();
         
-        if (closed || i < nPolylinePlusses - 1)
+        if (closed || i < drawingSize - 1)
         {
-            ofPoint lastOfThis = aPolyline[aPolyline.size() - 1];
-            ofPoint firstOfNext = (aDrawing[(i + 1) % nPolylinePlusses].polyline)[0];
-            float dist = ofDist(lastOfThis.x, lastOfThis.y, firstOfNext.x, firstOfNext.y);
+            auto& lastOfThis = aPolyline[aPolyline.size() - 1];
+			
+            auto& firstOfNext = (aDrawing[(i + 1) % drawingSize])[0];
+			
+//            float dist = ofDist(lastOfThis.x, lastOfThis.y, firstOfNext.x, firstOfNext.y);
 
-            len += dist;
+//            len += dist;
+			len += glm::distance(lastOfThis, firstOfNext);
         }
         
     }
@@ -229,7 +275,9 @@ float ofApp::computeLengthOfDrawing(vector<PolylinePlus> aDrawing) {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-    bDoit = true;
+//    bDoit = true;
+	++drawIndex %= theOptimizedDrawings.size();
+	
 }
 
 //--------------------------------------------------------------

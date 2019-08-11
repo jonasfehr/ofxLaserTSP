@@ -1,11 +1,11 @@
 #pragma once
 
-#include "ofMain.h";
-#include "LaserDefs.h";
-#include "RouteOptimizer.h";
-#include "RouteNode.h";
+#include "ofMain.h"
+#include "LaserDefs.h"
+#include "RouteOptimizer.h"
+#include "RouteNode.h"
 
-#include <vector>;
+//#include <vector>
 
 namespace bryce_tsp
 {
@@ -24,7 +24,7 @@ namespace bryce_tsp
         LaserCommandType type;
 
         // Only relavant to moveToCommands.
-        ofPoint pt;
+		glm::vec3 pt;
 
         // MoveTo commands contain the index of the polyline they belong
         // to based on the ordering of the route passed into the constructor.
@@ -33,24 +33,26 @@ namespace bryce_tsp
         int ID;
     };
 
-    typedef std::vector<LaserCommand> Program;
+//    typedef std::vector<LaserCommand> Program;
 
     class LaserProgram
     {
 
     private:
         // Private Route object.
-        Route * route;
+		std::vector<ofPolyline> route;
         bool closed;
 
         // path_permutations[route[id]] = id of route in original input.
-        std::vector<int> path_permutation;
-
+        std::vector<size_t> path_permutation;
+		std::vector<LaserCommand> commandList;
+		bool bCommandListBuilt = false;
+		void updateCommandList();
     public:
         // ASSUMES: route allocated via new. The Laser Program now owns the input route and will deal with deallocation.
         // ASSUMES: every route contains at least 2 points.
-        LaserProgram(Route * route, bool closed = true);
-        ~LaserProgram();
+        LaserProgram(const std::vector<ofPolyline>& route, bool closed = true);
+//        ~LaserProgram();
 
         // -- Instructs the LaserProgram to Optimize its route.
         // Updates the internal route pointer to a new route.
@@ -61,13 +63,13 @@ namespace bryce_tsp
         void optimize(int passes);
 
         // Returns the current route. This will be an optimized route if the optimize function has been used.
-        Route * getRoute();
-
+        const std::vector<ofPolyline>& getRoute() const;
+			  std::vector<ofPolyline>& getRoute();
         // Converts the current route into a command list form.
-        Program * getCommandList();
-
+//        const std::vector<LaserCommand>&  getCommandList() const;
+			  std::vector<LaserCommand>&  getCommandList() ;
         // Determines the index of the given index in the original data after the optimization permutation has been applied.
-        int lookup_original_index(int current_index);
+        const size_t& lookup_original_index(const size_t & current_index);
 
     // Optimization functions.
     private:

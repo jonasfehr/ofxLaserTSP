@@ -9,7 +9,7 @@
 		<string>46</string>
 		<key>objects</key>
 		<dict>
-			<key>C7F6859BBAA7F86A70B8EFC4</key>
+			<key>4969942D3E9336FE5255C5F3</key>
 			<dict>
 				<key>explicitFileType</key>
 				<string>sourcecode.c.h</string>
@@ -20,18 +20,18 @@
 				<key>name</key>
 				<string>RouteOptimizer.h</string>
 				<key>path</key>
-				<string>../../../addons/ofxLaserTSP/src/RouteOptimizer.h</string>
+				<string>../../../addons/ofxLaserTSP_roy/src/RouteOptimizer.h</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
-			<key>A46EEA848852902DB70E2FA3</key>
+			<key>48B09044FCD516193B67393F</key>
 			<dict>
 				<key>fileRef</key>
-				<string>97DB0F224BA8BD7D080D4DD6</string>
+				<string>FFE7F1A2B75A3BCEDD9442E1</string>
 				<key>isa</key>
 				<string>PBXBuildFile</string>
 			</dict>
-			<key>97DB0F224BA8BD7D080D4DD6</key>
+			<key>FFE7F1A2B75A3BCEDD9442E1</key>
 			<dict>
 				<key>explicitFileType</key>
 				<string>sourcecode.cpp.cpp</string>
@@ -42,11 +42,11 @@
 				<key>name</key>
 				<string>RouteOptimizer.cpp</string>
 				<key>path</key>
-				<string>../../../addons/ofxLaserTSP/src/RouteOptimizer.cpp</string>
+				<string>../../../addons/ofxLaserTSP_roy/src/RouteOptimizer.cpp</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
-			<key>3D41F41DA7254E919DB701C8</key>
+			<key>27A125BFB20238AA508DAC8E</key>
 			<dict>
 				<key>explicitFileType</key>
 				<string>sourcecode.c.h</string>
@@ -57,18 +57,18 @@
 				<key>name</key>
 				<string>RouteNode.h</string>
 				<key>path</key>
-				<string>../../../addons/ofxLaserTSP/src/RouteNode.h</string>
+				<string>../../../addons/ofxLaserTSP_roy/src/RouteNode.h</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
-			<key>3B42273BAF0E35BC2BC88814</key>
+			<key>2A6A8F91AA3A19DF28BA11EE</key>
 			<dict>
 				<key>fileRef</key>
-				<string>5AA23BB40A4DD62793764858</string>
+				<string>4E4C8006493AFEF86FBEE677</string>
 				<key>isa</key>
 				<string>PBXBuildFile</string>
 			</dict>
-			<key>5AA23BB40A4DD62793764858</key>
+			<key>4E4C8006493AFEF86FBEE677</key>
 			<dict>
 				<key>explicitFileType</key>
 				<string>sourcecode.cpp.cpp</string>
@@ -79,11 +79,11 @@
 				<key>name</key>
 				<string>RouteNode.cpp</string>
 				<key>path</key>
-				<string>../../../addons/ofxLaserTSP/src/RouteNode.cpp</string>
+				<string>../../../addons/ofxLaserTSP_roy/src/RouteNode.cpp</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
-			<key>308EE18BD68F0F65676A241C</key>
+			<key>EA84B5067FFCFCF3642810C4</key>
 			<dict>
 				<key>explicitFileType</key>
 				<string>sourcecode.c.h</string>
@@ -94,18 +94,18 @@
 				<key>name</key>
 				<string>LaserProgram.h</string>
 				<key>path</key>
-				<string>../../../addons/ofxLaserTSP/src/LaserProgram.h</string>
+				<string>../../../addons/ofxLaserTSP_roy/src/LaserProgram.h</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
-			<key>FDC572DD531B9FE6892FBA3F</key>
+			<key>96189475F2889B540D5D01C5</key>
 			<dict>
 				<key>fileRef</key>
-				<string>5C0ECFB23F2CD4245609DD1A</string>
+				<string>4D43F8E1ED4D9DB54600FDDE</string>
 				<key>isa</key>
 				<string>PBXBuildFile</string>
 			</dict>
-			<key>5C0ECFB23F2CD4245609DD1A</key>
+			<key>4D43F8E1ED4D9DB54600FDDE</key>
 			<dict>
 				<key>explicitFileType</key>
 				<string>sourcecode.cpp.cpp</string>
@@ -116,11 +116,11 @@
 				<key>name</key>
 				<string>LaserProgram.cpp</string>
 				<key>path</key>
-				<string>../../../addons/ofxLaserTSP/src/LaserProgram.cpp</string>
+				<string>../../../addons/ofxLaserTSP_roy/src/LaserProgram.cpp</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
-			<key>7E2E659B61D8D9FB607C85C7</key>
+			<key>AE24D918A3D0BC471B6C9BCE</key>
 			<dict>
 				<key>explicitFileType</key>
 				<string>sourcecode.c.h</string>
@@ -131,11 +131,11 @@
 				<key>name</key>
 				<string>LaserMain.h</string>
 				<key>path</key>
-				<string>../../../addons/ofxLaserTSP/src/LaserMain.h</string>
+				<string>../../../addons/ofxLaserTSP_roy/src/LaserMain.h</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
-			<key>CCD3A20720B1922856CD9823</key>
+			<key>82FE1A5B4AC22F923D4015FE</key>
 			<dict>
 				<key>explicitFileType</key>
 				<string>sourcecode.c.h</string>
@@ -146,23 +146,23 @@
 				<key>name</key>
 				<string>LaserDefs.h</string>
 				<key>path</key>
-				<string>../../../addons/ofxLaserTSP/src/LaserDefs.h</string>
+				<string>../../../addons/ofxLaserTSP_roy/src/LaserDefs.h</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
-			<key>815D049F3E33B20E40CDC1AD</key>
+			<key>71E9C173C7C76882DC0713E6</key>
 			<dict>
 				<key>children</key>
 				<array>
-					<string>6D2F8E68553B539CB57D3D75</string>
-					<string>CCD3A20720B1922856CD9823</string>
-					<string>7E2E659B61D8D9FB607C85C7</string>
-					<string>5C0ECFB23F2CD4245609DD1A</string>
-					<string>308EE18BD68F0F65676A241C</string>
-					<string>5AA23BB40A4DD62793764858</string>
-					<string>3D41F41DA7254E919DB701C8</string>
-					<string>97DB0F224BA8BD7D080D4DD6</string>
-					<string>C7F6859BBAA7F86A70B8EFC4</string>
+					<string>D24630A67A7254D41380A5FB</string>
+					<string>82FE1A5B4AC22F923D4015FE</string>
+					<string>AE24D918A3D0BC471B6C9BCE</string>
+					<string>4D43F8E1ED4D9DB54600FDDE</string>
+					<string>EA84B5067FFCFCF3642810C4</string>
+					<string>4E4C8006493AFEF86FBEE677</string>
+					<string>27A125BFB20238AA508DAC8E</string>
+					<string>FFE7F1A2B75A3BCEDD9442E1</string>
+					<string>4969942D3E9336FE5255C5F3</string>
 				</array>
 				<key>isa</key>
 				<string>PBXGroup</string>
@@ -171,27 +171,27 @@
 				<key>sourceTree</key>
 				<string>&lt;group&gt;</string>
 			</dict>
-			<key>42C3D491F75FB7DA1D46EC96</key>
+			<key>B214EDEBEA35CE5452E644B7</key>
 			<dict>
 				<key>children</key>
 				<array>
-					<string>815D049F3E33B20E40CDC1AD</string>
+					<string>71E9C173C7C76882DC0713E6</string>
 				</array>
 				<key>isa</key>
 				<string>PBXGroup</string>
 				<key>name</key>
-				<string>ofxLaserTSP</string>
+				<string>ofxLaserTSP_roy</string>
 				<key>sourceTree</key>
 				<string>&lt;group&gt;</string>
 			</dict>
-			<key>8524598E51D4F00E882218AE</key>
+			<key>10EB9AADE274E0CBB37D91AD</key>
 			<dict>
 				<key>fileRef</key>
-				<string>6D2F8E68553B539CB57D3D75</string>
+				<string>D24630A67A7254D41380A5FB</string>
 				<key>isa</key>
 				<string>PBXBuildFile</string>
 			</dict>
-			<key>6D2F8E68553B539CB57D3D75</key>
+			<key>D24630A67A7254D41380A5FB</key>
 			<dict>
 				<key>explicitFileType</key>
 				<string>sourcecode.cpp.cpp</string>
@@ -202,7 +202,7 @@
 				<key>name</key>
 				<string>LaserDefs.cpp</string>
 				<key>path</key>
-				<string>../../../addons/ofxLaserTSP/src/LaserDefs.cpp</string>
+				<string>../../../addons/ofxLaserTSP_roy/src/LaserDefs.cpp</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
@@ -372,7 +372,7 @@ fi
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
 						<string>src</string>
-						<string>../../../addons/ofxLaserTSP/src</string>
+						<string>../../../addons/ofxLaserTSP_roy/src</string>
 					</array>
 					<key>MACOSX_DEPLOYMENT_TARGET</key>
 					<string>10.9</string>
@@ -414,7 +414,7 @@ fi
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
 						<string>src</string>
-						<string>../../../addons/ofxLaserTSP/src</string>
+						<string>../../../addons/ofxLaserTSP_roy/src</string>
 					</array>
 					<key>ICON</key>
 					<string>$(ICON_NAME_RELEASE)</string>
@@ -450,7 +450,7 @@ fi
 			<dict>
 				<key>children</key>
 				<array>
-					<string>42C3D491F75FB7DA1D46EC96</string>
+					<string>B214EDEBEA35CE5452E644B7</string>
 				</array>
 				<key>isa</key>
 				<string>PBXGroup</string>
@@ -3217,7 +3217,7 @@ fi
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
 						<string>src</string>
-						<string>../../../addons/ofxLaserTSP/src</string>
+						<string>../../../addons/ofxLaserTSP_roy/src</string>
 					</array>
 					<key>MACOSX_DEPLOYMENT_TARGET</key>
 					<string>10.9</string>
@@ -3279,7 +3279,7 @@ fi
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
 						<string>src</string>
-						<string>../../../addons/ofxLaserTSP/src</string>
+						<string>../../../addons/ofxLaserTSP_roy/src</string>
 					</array>
 					<key>MACOSX_DEPLOYMENT_TARGET</key>
 					<string>10.9</string>
@@ -3304,10 +3304,10 @@ fi
 				<array>
 					<string>E4B69E200A3A1BDC003C02F2</string>
 					<string>E4B69E210A3A1BDC003C02F2</string>
-					<string>8524598E51D4F00E882218AE</string>
-					<string>FDC572DD531B9FE6892FBA3F</string>
-					<string>3B42273BAF0E35BC2BC88814</string>
-					<string>A46EEA848852902DB70E2FA3</string>
+					<string>10EB9AADE274E0CBB37D91AD</string>
+					<string>96189475F2889B540D5D01C5</string>
+					<string>2A6A8F91AA3A19DF28BA11EE</string>
+					<string>48B09044FCD516193B67393F</string>
 				</array>
 				<key>isa</key>
 				<string>PBXSourcesBuildPhase</string>
@@ -3408,7 +3408,7 @@ fi
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
 						<string>src</string>
-						<string>../../../addons/ofxLaserTSP/src</string>
+						<string>../../../addons/ofxLaserTSP_roy/src</string>
 					</array>
 					<key>ICON</key>
 					<string>$(ICON_NAME_DEBUG)</string>
@@ -3461,7 +3461,7 @@ fi
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
 						<string>src</string>
-						<string>../../../addons/ofxLaserTSP/src</string>
+						<string>../../../addons/ofxLaserTSP_roy/src</string>
 					</array>
 					<key>ICON</key>
 					<string>$(ICON_NAME_RELEASE)</string>

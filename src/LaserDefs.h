@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+//#include <vector>
 #include "ofMain.h"
 
 /*
@@ -10,19 +10,29 @@
 */
 namespace bryce_tsp
 {
-    typedef std::vector<ofPoint> Polyline;
-    typedef std::vector<Polyline *> Route;
+	template<typename T>
+	std::shared_ptr<T> getFromWeak(std::weak_ptr<T> weak){
+		if(!weak.expired()){
+			return weak.lock();
+		}
+		return nullptr;
+	}
 
-    Route * copy(Route * route);
+//	typedef std::vector<glm::vec3> Polyline;
+//    typedef std::vector<Polyline *> Route;
+	
 
-    Polyline * copy_polyline(Polyline * route);
-    
-    Polyline * of_polyline_to_polyline(ofPolyline * route);
+//    Route * copy(Route * route);
 
-    Polyline * reverse_polyline(Polyline * route);
+//    Polyline * copy_polyline(Polyline * route);
+	
+//    Polyline * of_polyline_to_polyline(ofPolyline * route);
 
+    void reverse_polyline(ofPolyline & route);
+
+	
     // Free an allocated Route.
-    void free_route(Route * route);
+//    void free_route(Route * route);
 
 }
 

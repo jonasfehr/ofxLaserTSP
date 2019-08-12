@@ -1,13 +1,6 @@
 #pragma once
-
-//#include <vector>
 #include "ofMain.h"
 
-/*
-* A series of Typedefs in one place to make the Type descriptions better.
-* This also imports all of the Laser .h files.
-* Written by Bryce Summers on 11/28/2016.
-*/
 namespace ofxLaserTSP
 {
 	template<typename T>
@@ -18,21 +11,18 @@ namespace ofxLaserTSP
 		return nullptr;
 	}
 
-//	typedef std::vector<glm::vec3> Polyline;
-//    typedef std::vector<Polyline *> Route;
+	template<typename T>
+	typename std::enable_if<std::is_base_of<ofPolyline, T>::value || std::is_same<ofPolyline, T>::value, void >::type
+	reverse_polyline(T & route){
+		auto& v = route.getVertices();
+		// we are swaping elements of the polyline so we just need to loop through half of these.
+		size_t mid = floor(v.size()/2.0f);
+		for(size_t i = 0; i < mid; i++){
+			std::swap(v[i], v[v.size() - 1 - i]);
+		}
+	}
+
 	
-
-//    Route * copy(Route * route);
-
-//    Polyline * copy_polyline(Polyline * route);
-	
-//    Polyline * of_polyline_to_polyline(ofPolyline * route);
-
-    void reverse_polyline(ofPolyline & route);
-
-	
-    // Free an allocated Route.
-//    void free_route(Route * route);
 
 }
 

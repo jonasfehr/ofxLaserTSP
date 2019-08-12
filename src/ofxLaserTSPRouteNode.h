@@ -1,4 +1,5 @@
 #pragma once
+#include "ofxLaserTSPDefs.h"
 #include <cstddef>
 #include <memory>
 namespace ofxLaserTSP
@@ -6,7 +7,12 @@ namespace ofxLaserTSP
 	class RouteNode: public std::enable_shared_from_this<RouteNode>
     {
     public:
-        RouteNode(size_t id, size_t pid1, size_t pid2);
+        RouteNode(size_t id, size_t pid1, size_t pid2)
+		{
+			this -> id = id;
+			this -> index_start = pid1;
+			this -> index_end   = pid2;
+		}
 
         bool marked = false;
 
@@ -30,18 +36,39 @@ namespace ofxLaserTSP
 
 
         // Flips this node.
-        void flip();// Flips starting and ending points, but keeps location in domino list.
-
+		// Flips starting and ending points, but keeps location in domino list.
+        void flip()
+		{
+			// This is used to signal the output to invert the input polyline.
+			flipped = !flipped;
+			
+			std::swap(index_start, index_end);
+		}
         // Reverses orientation in domino list. Maintains the connections between paired points.
-        void reverse();
+		void reverse()
+		{
+			std::swap(prev, next);
+			flip();
+		}
 	
 		
-		std::shared_ptr<RouteNode> getNext();
-		std::shared_ptr<RouteNode> getPrev();
+		std::shared_ptr<RouteNode> getNext()
+		{
+			return getFromWeak(next);
+		}
+		std::shared_ptr<RouteNode> getPrev()
+		{
+			return getFromWeak(prev);
+		}
 		
-		void setNext(std::shared_ptr<RouteNode> next);
-		void setPrev(std::shared_ptr<RouteNode> prev);
-		
+		void setNext(std::shared_ptr<RouteNode> next)
+		{
+			this->next = next;
+		}
+		void setPrev(std::shared_ptr<RouteNode> prev)
+		{
+			this->prev = prev;
+		}
 		
 	private:
 		// Circular Doubly Linked List.
@@ -51,4 +78,9 @@ namespace ofxLaserTSP
 
 		
     };
+	
+	
+	
+	
+	
 }

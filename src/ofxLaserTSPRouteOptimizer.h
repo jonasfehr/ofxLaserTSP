@@ -237,9 +237,10 @@ namespace ofxLaserTSP
 		auto prev2 = node2 -> getPrev();
 		
 		float metric_0 = metric(node1 -> index_end, next1 -> index_start) +
-		metric(node2 -> index_end, next2 -> index_start);
+		                 metric(node2 -> index_end, next2 -> index_start);
+		
 		float metric_1 = metric(node1 -> index_end, node2 -> index_end) +
-		metric(next1 -> index_start, next2 -> index_start);
+		                 metric(next1 -> index_start, next2 -> index_start);
 		// No benifit.
 		if (metric_0 < metric_1)
 		{

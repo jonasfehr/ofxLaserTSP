@@ -54,14 +54,8 @@
 		}
 
         // Returns the current route. This will be an optimized route if the optimize function has been used.
-        const std::vector<T>& getRoute() const
-		{
-			return route;
-		}
-			  std::vector<T>& getRoute()
-		{
-			return route;
-		}
+        const std::vector<T>& getRoute() const {return route;}
+			  std::vector<T>& getRoute() { return route; }
 
         // Determines the index of the given index in the original data after the optimization permutation has been applied.
         const size_t& lookup_original_index(const size_t & current_index)

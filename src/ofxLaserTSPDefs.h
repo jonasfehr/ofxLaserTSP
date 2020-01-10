@@ -17,10 +17,10 @@ namespace ofxLaserTSP
 	reverse_polyline(T & route){
 		auto& v = route.points;
 		// we are swaping elements of the polyline so we just need to loop through half of these.
-		size_t mid = floor(v.size()/2.0f);
-		for(size_t i = 0; i < mid; i++){
-			std::swap(v[i], v[v.size() - 1 - i]);
-		}
+//		size_t mid = floor(v.size()/2.0f);
+//		for(size_t i = 0; i < mid; i++){
+//			std::swap(v[i], v[v.size() - 1 - i]);
+//		}
 	}
 
 	

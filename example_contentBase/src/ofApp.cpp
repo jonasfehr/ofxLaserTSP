@@ -14,28 +14,27 @@ void ofApp::setup() {
        }
     
     rawPointGroups = cb.getPointGroups();
-	
-    optimize(3);
+       optimize(3);
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
     cb.clear();
-    for(int i = 0; i< 20; ++i){
+    for(int i = 0; i< 40; ++i){
             glm::vec2 pos = glm::vec2(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()));
-            for(int p = 0; p<2; ++p){
+            for(int p = 0; p<ofRandom(2,100); ++p){
                 cb.addPoint(pos, 1);
                 pos+=glm::vec2(1);
             }
             cb.closePointGroup();
         }
-     
+
      rawPointGroups = cb.getPointGroups();
-     
+
     optimize(3);
     
-    optimiser.optimise(cb);
-    optimiser.update();
+//    optimiser.optimise(cb);
+//    optimiser.update();
 }
 //--------------------------------------------------------------
 void ofApp::optimize(int passes) {
@@ -104,10 +103,10 @@ void ofApp::draw() {
     ofSetColor(255,0,155);
     drawPoints(optimisedPointGroups);
     
-    ofSetColor(255,0,0);
-    drawPoints(cb.getPointGroupsRef());
-    ofSetColor(255,255,155);
-    drawPoints(optimiser.contentBase.getPointGroupsRef());
+//    ofSetColor(255,0,0);
+//    drawPoints(cb.getPointGroupsRef());
+//    ofSetColor(255,255,155);
+//    drawPoints(optimiser.contentBase.getPointGroupsRef());
     
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
 	

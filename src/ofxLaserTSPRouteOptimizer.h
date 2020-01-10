@@ -109,6 +109,9 @@ namespace ofxLaserTSP
 			nodes[i]->setPrev(nodes[(i + len - 1) % len]);
 			nodes[i]->setNext(nodes[(i + len + 1) % len]);
 		}
+
+        
+
 	}
 	
 	//----------------------------------------------------------------------------------
@@ -118,6 +121,7 @@ namespace ofxLaserTSP
 		if(aplyOptimizationPasses(passes)){
 			toRoute();
 		}
+
 		return outputRoute;
 	}
 	//----------------------------------------------------------------------------------
@@ -165,6 +169,7 @@ namespace ofxLaserTSP
 				}
 			}
 		}
+
 		return true;
 	}
 	//----------------------------------------------------------------------------------
@@ -209,7 +214,7 @@ namespace ofxLaserTSP
 		// The forward connection.
 		const size_t & ip2 = node->index_end;
 		const size_t & ip3 = node->getNext()-> index_start;
-		
+
 		
 		if((metric(ip0, ip2) + metric(ip1, ip3)) < (metric(ip0, ip1) + metric(ip2, ip3))){
 			node->flip();

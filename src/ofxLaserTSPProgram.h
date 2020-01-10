@@ -48,6 +48,7 @@
 			
 			ofxLaserTSP::RouteOptimizer<T> optimizer(this -> route, this -> closed);
 			this -> route = optimizer.optimize(passes);
+            
 			
 			// Get the permutation for concerned artists who want their original colors, strokes, etc.
 			optimizer.permute(path_permutation);

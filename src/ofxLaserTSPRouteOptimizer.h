@@ -4,7 +4,7 @@
 #include "ofMain.h"
 #include "ofxLaserTSPDefs.h"
 #include "ofxLaserTSPRouteNode.h"
-
+#include "ContentBase.hpp"
 /*
  * Polyline Route Optimizer.
  * Written by Bryce Summers on 11/18/2016.
@@ -15,8 +15,9 @@ namespace ofxLaserTSP
 	template<typename T>
 	class RouteOptimizer
 	{
-		static_assert(std::is_base_of<ofPolyline, T>::value || std::is_same<ofPolyline, T>::value,
-					  "Templated class needs to be ofPolyline or inherit from it");
+        static_assert(std::is_base_of<ContentBase::PointGroup, T>::value || std::is_same<ContentBase::PointGroup, T>::value,
+        "Templated class needs to be PointGroup or inherit from it");
+
 	private:
 		std::vector<T> route;
 		std::vector<T> outputRoute;
@@ -43,7 +44,7 @@ namespace ofxLaserTSP
 		// A local allocation of memory for all of the route nodes,
 		// which constitute a modifiable linked list.
 		std::vector<std::shared_ptr<RouteNode>>  nodes;	 // Stored in by index, nodes[i].id = i;
-		std::vector<glm::vec3>  points;  // Stored in by index, points[nodex[i].start]
+		std::vector<glm::vec2>  points;  // Stored in by index, points[nodex[i].start]
 		
 		// Flips node i if it decreases the global metric.
 		bool attemptFlip(int i);
@@ -96,8 +97,8 @@ namespace ofxLaserTSP
 			pid += 2;
 			nodes.push_back(node);
 			
-			points.push_back(r.getVertices().front());
-			points.push_back(r.getVertices().back());
+			points.push_back(r.points.front());
+			points.push_back(r.points.back());
 			
 		}
 		

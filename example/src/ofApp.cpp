@@ -33,7 +33,7 @@ void ofApp::optimizeDrawing(int passes) {
 	for (int i = 0; i <= passes; i++){
 		
 		program.optimize(i);
-		
+        program.getRoute();
 		theOptimizedDrawings.push_back(program.getRoute());
 		
 	}

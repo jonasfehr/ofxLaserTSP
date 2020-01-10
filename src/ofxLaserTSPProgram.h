@@ -2,14 +2,15 @@
 
 #include "ofMain.h"
 #include "ofxLaserTSPRouteOptimizer.h"
+#include "ContentBase.hpp"
 //namespace ofxLaserTSP
 //{
 
 	template<typename T>
     class ofxLaserTSPLaserProgram
     {
-		static_assert(std::is_base_of<ofPolyline, T>::value || std::is_same<ofPolyline, T>::value,
-					  "Templated class needs to be ofPolyline or inherit from it");
+		static_assert(std::is_base_of<ContentBase::PointGroup, T>::value || std::is_same<ContentBase::PointGroup, T>::value,
+					  "Templated class needs to be ContentBase::PointGroup or inherit from it");
 		
     private:
         // Private Route object.

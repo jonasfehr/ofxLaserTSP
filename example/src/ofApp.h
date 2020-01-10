@@ -27,7 +27,7 @@ public:
     void populateExampleVectorOfPolylines();
     void optimizeDrawing(int passes = 4);
     float computeLengthOfDrawing(const vector<ofPolyline>& aDrawing);
-
+    void createRandomPolylines();
 	void optimize();
 	
 	

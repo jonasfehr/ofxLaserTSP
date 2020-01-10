@@ -4,13 +4,16 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 	populateExampleVectorOfPolylines();
-	
+    createRandomPolylines();
 	optimize();
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	
+    createRandomPolylines();
+
+    optimize();
+
 }
 
 //--------------------------------------------------------------
@@ -67,7 +70,7 @@ void ofApp::drawPolys(vector<ofPolyline>& polys){
 void ofApp::draw() {
 	ofBackground(60);
 	ofPushMatrix();
-	ofScale(3.0, 3.0);
+//	ofScale(3.0, 3.0);
 	
 	
 	drawPolys(theOptimizedDrawings[drawIndex]);
@@ -94,6 +97,19 @@ void ofApp::draw() {
 
 
 //--------------------------------------------------------------
+void ofApp::createRandomPolylines(){
+    theRawDrawing.clear();
+    for(int i = 0; i<30; i++){
+        ofPolyline poly;
+            glm::vec3 pos = glm::vec3(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()), 0);
+        poly.addVertex(pos);
+            pos += glm::vec3(ofRandom(-20, 20), ofRandom(-20,20), 0);
+        poly.addVertex(pos);
+            pos += glm::vec3(ofRandom(-20, 20), ofRandom(-20,20), 0);
+        poly.addVertex(pos);
+        theRawDrawing.push_back(poly);
+        }
+}
 void ofApp::populateExampleVectorOfPolylines() {
 	
 	// Constructs theRawDrawing from some hardcoded data.

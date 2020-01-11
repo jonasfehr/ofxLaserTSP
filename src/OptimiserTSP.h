@@ -68,7 +68,8 @@ public:
         // also receive doesn't allocate or make any copies
         ContentBase cb;
         while(toOptimise.receive(cb)){
-            optimize(cb.getPointGroupsRef(),optimisedContentBase.getPointGroupsRef() , 4);
+            if(cb.size()>2) optimize(cb.getPointGroupsRef(),optimisedContentBase.getPointGroupsRef() , 4);
+            else optimisedContentBase = cb;
             optimised.send(optimisedContentBase);//std::move(cb));
         }
     }

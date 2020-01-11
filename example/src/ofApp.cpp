@@ -101,15 +101,16 @@ void ofApp::createRandomPolylines(){
     theRawDrawing.clear();
     for(int i = 0; i<30; i++){
         ofPolyline poly;
-            glm::vec3 pos = glm::vec3(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()), 0);
+        glm::vec3 pos = glm::vec3(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()), 0);
         poly.addVertex(pos);
+        for(int j = 0; j<100; j++){
             pos += glm::vec3(ofRandom(-20, 20), ofRandom(-20,20), 0);
-        poly.addVertex(pos);
-            pos += glm::vec3(ofRandom(-20, 20), ofRandom(-20,20), 0);
-        poly.addVertex(pos);
-        theRawDrawing.push_back(poly);
+            poly.addVertex(pos);
         }
+        theRawDrawing.push_back(poly);
+    }
 }
+
 void ofApp::populateExampleVectorOfPolylines() {
 	
 	// Constructs theRawDrawing from some hardcoded data.

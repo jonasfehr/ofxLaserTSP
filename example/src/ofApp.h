@@ -35,8 +35,6 @@ public:
 
     vector<vector<ofPolyline>>	theOptimizedDrawings;
     
-    ofxLaserTSPLaserProgram<ofPolyline> program(theRawDrawing, this -> closed);
-
 
 	void drawPolys(vector<ofPolyline>& polys);
 	size_t drawIndex = 0;
